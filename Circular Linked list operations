@@ -1,0 +1,89 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node {
+	int data;
+	struct node* next;
+} Node;
+typedef Node* NODE;
+NODE insertAtPositionInCLL(NODE first, int pos, int data) {
+	NODE newNode = (NODE)malloc(sizeof(Node));
+	newNode->data = data;
+	newNode->next = NULL;
+	if (first == NULL) {
+		if (pos == 1) {
+			newNode->next = newNode;
+			return newNode;
+		} else {
+			printf("Position not found\n");
+			free(newNode);
+			return first;
+		}
+	}
+	int count = 0;
+	NODE temp = first;
+	do {
+		count++;
+		temp = temp->next;
+	} while (temp != first);
+	if (pos < 1 || pos > count + 1) {
+		printf("Position not found\n");
+		free(newNode);
+		return first;
+	}
+	if (pos == 1) {
+		NODE last = first;
+		while (last->next != first)
+			last = last->next;
+NODE temp = first;
+		first = first->next;
+		last->next = first;
+		printf("Deleted element: %d\n", temp->data);
+		free(temp);
+		return first;
+	}
+	NODE prev = first;
+	for (int i = 1; i < pos - 1; i++) {
+		prev = prev->next;
+	}
+	NODE toDelete = prev->next;
+	prev->next = toDelete->next;
+	printf("Deleted element: %d\n", toDelete->data);
+	free(toDelete);
+	return first;
+}
+void traverseListInCLL(NODE first) {
+	NODE temp = first;
+	do {
+		printf("%d --> ", temp->data);
+		temp = temp->next;
+	} while (temp != first);
+	printf("\n");
+}
+NODE reverseCLL(NODE first){
+	if(first == NULL || first->next==first){
+		return first;
+	}
+	NODE last=first;
+	while(last->next!=first){
+		last=last->next;
+	}
+	last->next=NULL;
+	NODE  prev = NULL;
+	NODE curr = first;
+	NODE next = NULL;
+
+	while(curr!=NULL){
+		next = curr->next;
+		curr-> next = prev;
+		prev = curr;
+		curr = next;
+	} 
+first=prev;
+	last = first;
+	while(last->next !=NULL){
+		last= last->next;
+		
+	}
+	last->next = first;
+	return first;
+}
